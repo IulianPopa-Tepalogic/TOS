@@ -9,6 +9,8 @@
 #include "_tos_inc/process.h"
 #include "_tos_inc/exception.h"
 
+#include "tos_startup.h"
+
 void TOSSysTick_Handler()
 {
 	__tos_disable_exceptions();
