@@ -107,6 +107,6 @@ void tos_sleep_ticks(uint_t ticks)
 
 void tos_sleep(uint_t ms)
 {
-	tos_sleep_ticks(tos_hz_per_tick() * ms / 1000);
+	tos_sleep_ticks(tos_ms2ticks(ms));
 }
 

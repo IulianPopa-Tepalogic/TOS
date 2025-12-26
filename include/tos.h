@@ -68,17 +68,17 @@ void tos_critical_fault();
 void tos_reset();
 
 TOS_TICKS tos_ticks();
-TOS_CLOCK_HZ tos_hz_per_tick();
-void tos_set_hz_per_tick(const TOS_CLOCK_HZ hz);
+TOS_CLOCK_HZ tos_ticks_per_second();
+void tos_set_ticks_per_second(const TOS_CLOCK_HZ hz);
 
 static inline TOS_TICKS tos_ms2ticks(uint_t ms)
 {
-	return ms * tos_hz_per_tick() / 1000;
+	return ms * tos_ticks_per_second() / 1000;
 }
 
 static inline uint_t tos_ticks2ms(TOS_TICKS ticks)
 {
-	return ticks * 1000 / tos_hz_per_tick();
+	return ticks * 1000 / tos_ticks_per_second();
 }
 
 void tos_enable_irq(uint_t line, uint_t priority);

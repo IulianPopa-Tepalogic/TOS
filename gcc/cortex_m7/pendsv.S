@@ -2,7 +2,6 @@
 .syntax unified
 .cpu cortex-m7
 
-
 .section .text.TOS.PendSV_Handler
 
 .type __tos_prepare_for_ctx_switch, %function

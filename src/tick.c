@@ -16,12 +16,12 @@ TOS_TICKS tos_ticks()
 	return __tos_wall_tick;
 }
 
-TOS_CLOCK_HZ tos_hz_per_tick()
+TOS_CLOCK_HZ tos_ticks_per_second()
 {
 	return __tos_tick_clock;
 }
 
-void tos_set_hz_per_tick(const TOS_CLOCK_HZ hz)
+void tos_set_ticks_per_second(const TOS_CLOCK_HZ hz)
 {
 	__tos_tick_clock = hz;
 }
