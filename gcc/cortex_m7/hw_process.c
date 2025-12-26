@@ -13,14 +13,14 @@ void __tos_prepare_proc_to_start(struct TOS_PROCESS_DESCRIPTOR* desc)
 	desc->ctxt.contextStackPointer = (uint32_t)desc->stackStart;
 #ifndef TOS_FPU_ENABLED
 	desc->ctxt.contextStackPointer -= 8 * sizeof (uint32_t);
-
 	desc->ctxt.contextStackPointer -= 8 * sizeof (uint32_t);
+
 	((uint32_t*)desc->stackStart)[-1] = (1 << 24);
 	((uint32_t*)desc->stackStart)[-2] = (uint32_t)desc->processEntryPoint;
 #else
 	desc->ctxt.contextStackPointer -= (26 * sizeof (uint32_t));
-
 	desc->ctxt.contextStackPointer -= (24 * sizeof (uint32_t));
+
 	((uint32_t*)desc->stackStart)[-2] = 0;
 	((uint32_t*)desc->stackStart)[-19] = (1 << 24);
 	((uint32_t*)desc->stackStart)[-20] = (uint32_t)desc->processEntryPoint;

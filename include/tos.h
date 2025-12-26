@@ -11,6 +11,16 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
+#ifdef __cplusplus
+	#define _TOS_EXTERN_C_START extern "C" {
+	#define _TOS_EXTERN_C_END }
+	#define _TOS_EXTERN_DECL_ extern "C"
+#else
+	#define _TOS_EXTERN_C_START
+	#define _TOS_EXTERN_C_END
+	#define _TOS_EXTERN_DECL_ extern
+#endif
+
 #ifndef uint_t
 #define uint_t unsigned int
 #endif

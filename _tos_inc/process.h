@@ -11,20 +11,11 @@
 #include "tos.h"
 #include "tos_procs.h"
 
-
-#ifndef _EXTERN_
-	#ifdef __cplusplus
-	#define _EXTERN_	extern "C"
-	#else
-	#define _EXTERN_ extern
-	#endif
-#endif
-
-
-_EXTERN_ struct TOS_PROCESS_DESCRIPTOR* __tos_next_pid;
-_EXTERN_ struct TOS_PROCESS_DESCRIPTOR* __tos_current_pid;
-_EXTERN_ struct TOS_PROCESS_DESCRIPTOR* const __tos_processes;
-_EXTERN_ const uint32_t __tos_processes_count;
+_TOS_EXTERN_DECL_ struct TOS_PROCESS_DESCRIPTOR* __tos_next_pids;
+_TOS_EXTERN_DECL_ struct TOS_PROCESS_DESCRIPTOR *__tos_next_pid;
+_TOS_EXTERN_DECL_ struct TOS_PROCESS_DESCRIPTOR* __tos_current_pid;
+_TOS_EXTERN_DECL_ struct TOS_PROCESS_DESCRIPTOR* const __tos_processes;
+_TOS_EXTERN_DECL_ const uint32_t __tos_processes_count;
 
 static inline int
 __tos_pid_from_ctxt(const struct TOS_PROCESS_DESCRIPTOR* const desc)

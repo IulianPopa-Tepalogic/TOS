@@ -8,9 +8,10 @@
 
 void __tos_bsp_init_stage_1_hook()
 {
-	/* TODO: Add code to initialize the specific devices of
-	 *		your system. Assume the global variables have not been initialized
-	 *		and the IRQ subsystem is not configured. */
+	/* Note:
+	 * Add code to initialize the specific to your project here.
+	 * This function is called before any C/C++ constructor are called.
+	 */
 }
 
 
