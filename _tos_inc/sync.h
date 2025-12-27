@@ -1,12 +1,5 @@
-/*
- * sync.h
- *
- *  Created on: Jan 11, 2020
- *      Author: ipopa
- */
-
-#ifndef TOS_INC_SYNC_H_
-#define TOS_INC_SYNC_H_
+#ifndef TOS_SYNC_H_
+#define TOS_SYNC_H_
 
 #include "process.h"
 
@@ -18,4 +11,4 @@ struct __TOS_WAIT_NODE {
 
 
 
-#endif /* TOS_INC_SYNC_H_ */
+#endif /* TOS_SYNC_H_ */
