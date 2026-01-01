@@ -108,6 +108,7 @@ void tos_sleep_ticks(uint_t ticks);
 void tos_sleep(uint_t ms);
 
 struct TOS_MUTEX;
+void tos_init_mutex(struct TOS_MUTEX* mutex);
 void tos_lock_mutex(struct TOS_MUTEX* mutex);
 void tos_unlock_mutex(struct TOS_MUTEX* mutex);
 int tos_try_lock_mutex(struct TOS_MUTEX* mutex, TOS_TICKS ticks_tmo);
