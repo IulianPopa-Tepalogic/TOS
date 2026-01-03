@@ -29,6 +29,8 @@ SOFTWARE.
 #include "_tos_inc/exception.h"
 #include "_tos_inc/tick.h"
 
+#include <string.h>
+
 void tos_init_mutex(struct TOS_MUTEX* mutex)
 {
 	memset(mutex, 0, sizeof(struct TOS_MUTEX));

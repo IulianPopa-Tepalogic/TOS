@@ -24,7 +24,6 @@ SOFTWARE.
 
 #include "tos.h"
 #include "_tos_inc/exception.h"
-#include "tos.h"
 
 static volatile uint32_t* const NVIC_ISER = (uint32_t*)0xE000E100;
 static volatile uint32_t* const NVIC_ICER = (uint32_t*)0xE000E180;
@@ -38,17 +37,22 @@ static volatile uint32_t* const ICSR  = (uint32_t*)0xE000ED04;
 #define PENDSV_EXCEP 	14
 #define SYSTICK_EXCEP 	15
 
+#define PRIORITY_BITS_MASK 0x0F
+
 void
 tos_enable_irq(uint_t line, const uint_t priority)
 {
 	if (line < 14) return ;
+
 	switch (line)
 	{
 	case PENDSV_EXCEP:
+		*SHPR3 &= ~((uint32_t)PRIORITY_BITS_MASK << 20);
 		*SHPR3 |= ((uint32_t)priority << 20);
 		return;
 
 	case SYSTICK_EXCEP:
+		*SHPR3 &= ~((uint32_t)PRIORITY_BITS_MASK << 24);
 		*SHPR3 |= ((uint32_t)priority << 28);
 		return;
 	}
@@ -57,7 +61,11 @@ tos_enable_irq(uint_t line, const uint_t priority)
 	const uint_t reg_idx = line / 4;
 	const uint_t byte_idx = line % 4;
 
-	NVIC_IPR[reg_idx] |= ((((priority & 0x0F) << (byte_idx * 8))) << 4);
+	const uint32_t value_msk = (((PRIORITY_BITS_MASK << (byte_idx * 8))) << 4);
+	const uint32_t value = ((((priority & PRIORITY_BITS_MASK) << (byte_idx * 8))) << 4);
+
+	NVIC_IPR[reg_idx] &= ~value_msk;
+	NVIC_IPR[reg_idx] |= value;
 
 	const uint_t idx = line / 32;
 	const uint_t bit = line % 32;
