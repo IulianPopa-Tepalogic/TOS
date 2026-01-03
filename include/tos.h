@@ -107,6 +107,9 @@ int tos_yield();
 void tos_sleep_ticks(uint_t ticks);
 void tos_sleep(uint_t ms);
 
+void tos_freeze_pid(const uint_t pid);
+void tos_thaw_pid(const uint_t pid);
+
 struct TOS_MUTEX;
 void tos_init_mutex(struct TOS_MUTEX* mutex);
 void tos_lock_mutex(struct TOS_MUTEX* mutex);

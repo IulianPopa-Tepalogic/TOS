@@ -131,3 +131,32 @@ void tos_sleep(uint_t ms)
 	tos_sleep_ticks(tos_ms2ticks(ms));
 }
 
+
+void tos_freeze_pid(const uint_t pid)
+{
+	if ((pid == 0) || (pid >= __tos_processes_count))
+		tos_critical_fault();
+
+	__tos_disable_exceptions();
+
+	struct TOS_PROCESS_DESCRIPTOR* proc = __tos_processes + pid;
+	proc->runState = ENDED;
+
+	__tos_enable_exceptions();
+	__tos_switch_next_ctxt();
+
+}
+
+void tos_thaw_pid(const uint_t pid)
+{
+	if ((pid == 0) || (pid >= __tos_processes_count))
+		tos_critical_fault();
+
+	__tos_disable_exceptions();
+
+	struct TOS_PROCESS_DESCRIPTOR* proc = __tos_processes + pid;
+	proc->runState = READY;
+
+	__tos_enable_exceptions();
+	__tos_switch_next_ctxt();
+}
