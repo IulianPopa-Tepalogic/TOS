@@ -30,8 +30,8 @@ SOFTWARE.
 #include "_tos_inc/process.h"
 #include "_tos_inc/exception.h"
 
-struct TOS_PROCESS_DESCRIPTOR* __tos_current_pid;
-struct TOS_PROCESS_DESCRIPTOR* __tos_next_pid;
+__attribute__ ((section (".tos_bss"))) struct TOS_PROCESS_DESCRIPTOR* __tos_current_pid;
+__attribute__ ((section (".tos_bss"))) struct TOS_PROCESS_DESCRIPTOR* __tos_next_pid;
 
 #define PENDSV_EXCEPTION 14
 
@@ -155,6 +155,7 @@ void tos_thaw_pid(const uint_t pid)
 	__tos_disable_exceptions();
 
 	struct TOS_PROCESS_DESCRIPTOR* proc = __tos_processes + pid;
+	proc->sleepTickMark = TOS_TICKS_MAX;
 	proc->runState = READY;
 
 	__tos_enable_exceptions();

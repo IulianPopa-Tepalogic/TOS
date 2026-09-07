@@ -24,8 +24,8 @@ SOFTWARE.
 
 #include "_tos_inc/tick.h"
 
-TOS_TICKS __tos_wall_tick;
-TOS_CLOCK_HZ __tos_tick_clock;
+__attribute__ ((section (".tos_bss"))) TOS_TICKS __tos_wall_tick;
+__attribute__ ((section (".tos_bss"))) TOS_CLOCK_HZ __tos_tick_clock;
 
 
 TOS_TICKS tos_ticks()

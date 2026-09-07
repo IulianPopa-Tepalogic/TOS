@@ -91,7 +91,7 @@ TOS_PROC_DECL(__tos_idle)
 #define TOS_PROC_CTX_DEF(n,p) TOS_PROC_CTX_DEF_2(n,p)
 
 #define TOS_PROC_CTX_START_DEF \
-	static struct TOS_PROCESS_DESCRIPTOR __tos_processes_arr_[] = {\
+		__attribute__ ((section (".tos_data"))) static struct TOS_PROCESS_DESCRIPTOR __tos_processes_arr_[] = {\
 	TOS_PROC_CTX_DEF(__tos_idle,0)
 
 #define TOS_PROC_CTX_END_DEF }; \
@@ -105,9 +105,9 @@ TOS_PROC_DECL(__tos_idle)
 		static void TOS_PROC_DECL_PROC_FUNC(name)(void); \
 		_TOS_EXTERN_C_START \
 		void (*TOS_PROC_DECL_PROC_FUNC_EP(name))(void) = TOS_PROC_DECL_PROC_FUNC(name); \
-		struct TOS_IPC_SIGNAL TOS_PROC_DECL_PROC_SIGNALS_A(name)[signals] = {{signals,}}; \
+		__attribute__ ((section (".tos_data"))) struct TOS_IPC_SIGNAL TOS_PROC_DECL_PROC_SIGNALS_A(name)[signals] = {{signals,}}; \
 		struct TOS_IPC_SIGNAL* TOS_PROC_DECL_PROC_SIGNALS(name) = TOS_PROC_DECL_PROC_SIGNALS_A(name); \
-		uint64_t TOS_PROC_DECL_PROC_STACK(name)[(STACK_ADD_CTX_SAVE_SIZE(stack) + 7) / 8]; \
+		__attribute__ ((section (".tos_bss"))) uint64_t TOS_PROC_DECL_PROC_STACK(name)[(STACK_ADD_CTX_SAVE_SIZE(stack) + 7) / 8]; \
 		void* TOS_PROC_DECL_PROC_STACK_E(name) = TOS_PROC_DECL_PROC_STACK(name); \
 		void* TOS_PROC_DECL_PROC_STACK_S(name) = TOS_PROC_DECL_PROC_STACK(name) + ((STACK_ADD_CTX_SAVE_SIZE(stack) + 7) / 8) - 1; \
 		_TOS_EXTERN_C_END \

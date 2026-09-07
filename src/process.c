@@ -76,7 +76,8 @@ const char* tos_pname(uint_t pid)
 
 void tos_critical_fault()
 {
-	tos_reset();
+	volatile unsigned int a = 1;
+	while (a != 0) a += 2; //loop forever and ever
 }
 
 void tos_reset()

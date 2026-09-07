@@ -25,10 +25,12 @@ SOFTWARE.
 #include "tos_startup.h"
 void __tos_final_init_stage_hook()
 {
-	/* TODO: Add code to make general setups/initializations specific to
-	 *		your system. Assume the global variables have been initialized
-	 *		and the IRQ system is configured but is disabled.
-	 *		At the exit from this function the IRQ are supposed to be disabled */
+	/* Intent: Perform final board-specific setup after application peripheral
+	 * initialization and before the scheduler starts.
+	 *
+	 * C global/static storage and C++ global objects are initialized and can
+	 * be used. The IRQ system is configured but disabled; it must remain
+	 * disabled when this function returns. */
 }
 
 

@@ -26,8 +26,11 @@ SOFTWARE.
 
 void __tos_clocks_init_stage_hook()
 {
-	/* TODO: Add code to initialize the clocks specific to
-	 *		your system. Assume the global variable have not been initialized
-	 *		and the IRQ subsystem is not configured. */
+	/* Intent: Initialize the clocks and the minimal timer support required by
+	 * the remaining startup stages.
+	 *
+	 * C/C++ global and static storage has not been initialized yet. Do not
+	 * read or write C globals, and do not use C++ global objects. The IRQ
+	 * subsystem is not configured. */
 
 }

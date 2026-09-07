@@ -49,10 +49,11 @@ void __tos_prepare_proc_to_start(struct TOS_PROCESS_DESCRIPTOR* desc)
 
 void __tos_start_idle()
 {
-	const uint32_t sp = (uint32_t)__tos_processes[0].stackStart;
-	void (*entry)() = __tos_processes[0].processEntryPoint;
+	volatile uint32_t idleProcessSp = (volatile uint32_t)__tos_processes[0].stackStart;
+	volatile void (*entryForIdleProcess)() = __tos_processes[0].processEntryPoint;
 
-	__tos_current_pid = __tos_next_pid = __tos_processes;
+	__tos_next_pid = __tos_processes;
+	__tos_current_pid = __tos_processes;
 
 	asm ("mrs r0, CONTROL\n"
 		 "orr r0, r0, #2\n"
@@ -62,6 +63,6 @@ void __tos_start_idle()
 		 "mov lr, %1\n"
 		 "bx lr\n"
 		:
-		: "r" (sp), "r" (entry)
+		: "r" (idleProcessSp), "r" (entryForIdleProcess)
 		:);
 }

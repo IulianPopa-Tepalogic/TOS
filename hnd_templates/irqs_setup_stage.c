@@ -26,9 +26,9 @@ SOFTWARE.
 
 void __tos_irqs_setup_stage_hook()
 {
-	/* TODO: Add code to initialize/setup the specific IRQ handling of
-	 * 		 your system. Assume the global variables have been initialized.
-	 * 		 At the end of this function the IRQ system has to be configured
-	 * 		 but disabled. */
+	/* Intent: Configure the board-specific interrupt sources and priorities.
+	 *
+	 * C global/static storage and C++ global objects are initialized and can
+	 * be used. At exit, the IRQ system must be configured but disabled. */
 
 }

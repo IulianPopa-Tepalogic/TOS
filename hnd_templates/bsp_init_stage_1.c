@@ -27,8 +27,13 @@ SOFTWARE.
 void __tos_bsp_init_stage_1_hook()
 {
 	/* Note:
-	 * Add code to initialize the specific to your project here.
-	 * This function is called before any C/C++ constructor are called.
+	 * Intent: Perform the earliest board/core setup required before memory
+	 * or peripheral initialization, such as enabling the FPU.
+	 *
+	 * C/C++ global and static storage has not been initialized yet. Do not
+	 * read or write C globals, and do not use C++ global objects. Any values
+	 * written to global or static storage here can be overwritten when .data
+	 * is copied and .bss is cleared during subsequent startup stages.
 	 */
 }
 

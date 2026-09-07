@@ -27,13 +27,15 @@ SOFTWARE.
 #include "_tos_inc/process.h"
 #include "_tos_inc/exception.h"
 
+extern void stm_main(void);
+
 static void prepare_procs_to_start()
 {
 	for (uint_t p = 0; p < __tos_processes_count; ++p)
 	{
-		/* When the process is configure some, values are not ready at compile time
-		 * Following is a fix to handle those situations and yet neet mechanism to
-		 * confgure the processes statically. */
+		/* When the process is configured,  some values are not ready at compile time
+		 * Following is a fix to handle those situations and yet keep the mechanism to
+		 * configure the processes statically. */
 		void *patch = *((void**)__tos_processes[p].stackStart);
 		__tos_processes[p].stackStart = patch;
 
@@ -58,22 +60,71 @@ void __tos_start_stage1()
 	__tos_disable_exceptions();
 
 	__tos_clocks_init_stage_hook();
+
 	__tos_bsp_init_stage_1_hook();
+
+	__tos_bsp_init_stage_2_hook();
 }
 
+extern uint32_t _sitos_data;
+extern uint32_t _stos_data;
+extern uint32_t _etos_data;
+extern uint32_t _stos_bss;
+extern uint32_t _etos_bss;
+
+void __tos_start_stage2()
+{
+	/* The linker script must define the section boundaries used below. For
+	 * GNU ld, adapt the memory regions in this example to the target:
+	 *
+	 *   .tos_data : {
+	 *     . = ALIGN(4);
+	 *     _stos_data = .;
+	 *     *(.tos_data)
+	 *     _etos_data = .;
+	 *   } > RAM AT> FLASH
+	 *   _sitos_data = LOADADDR(.tos_data);
+	 *
+	 *   .tos_bss : {
+	 *     . = ALIGN(4);
+	 *     _stos_bss = .;
+	 *     *(.tos_bss)
+	 *     _etos_bss = .;
+	 *   } > RAM
+	 *
+	 * Declare the symbols in C as shown above with `extern uint32_t`.
+	 * _sitos_data is the flash load address; the other symbols delimit the
+	 * RAM ranges copied and cleared during this startup stage. */
+	uint32_t* src = &_sitos_data;
+	uint32_t* dest  =&_stos_data;
+	while (dest < &_etos_data)
+		*dest++ = *src++;
+
+	dest = &_stos_bss;
+	while (dest < &_etos_bss)
+		*dest++ = 0;
+
+	__tos_bsp_init_stage_3_hook();
+}
 
 void tos_start()
 {
+	__tos_disable_exceptions();
 	 prepare_procs_to_start();
 
-	__tos_irqs_setup_stage_hook();
-	__tos_enable_exceptions();
-	__tos_bsp_init_stage_2_hook();
 	__tos_disable_exceptions();
+	__tos_irqs_setup_stage_hook();
 
+	__tos_disable_exceptions();
+	stm_main();
+
+	__tos_disable_exceptions();
 	__tos_final_init_stage_hook();
+
+	__tos_disable_exceptions();
 	__tos_specific_OS_related_hook();
 
+	__tos_enable_exceptions();
 	__tos_start_idle();
 }
 

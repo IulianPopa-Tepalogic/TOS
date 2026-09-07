@@ -22,34 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef TOS_STARTUP_H_
-#define TOS_STARTUP_H_
+#include "tos_startup.h"
 
-#include "tos.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void __tos_start_stage1();
-void __tos_start_stage2();
-void __tos_start_stage3();
-void __tos_clocks_init_stage_hook();
-void __tos_bsp_init_stage_1_hook();
-void __tos_irqs_setup_stage_hook();
-void __tos_bsp_init_stage_2_hook();
-void __tos_bsp_init_stage_3_hook();
-void __tos_final_init_stage_hook();
-void __tos_specific_OS_related_hook();
-void __tos_clocks_tick_callback();
-
-void __tos_no_os_delay_us(unsigned int us);
-
-void tos_start();
-
-#ifdef __cplusplus
+void __tos_bsp_init_stage_3_hook()
+{
+	/* Intent: Complete board setup that requires initialized C data, such as
+	 * enabling caches after external memory has been initialized.
+	 *
+	 * C global/static storage, .tos_data, and .tos_bss are initialized and
+	 * can be used. C++ global objects have not been constructed yet, so do
+	 * not use them. __tos_start_stage2() has already copied .tos_data and
+	 * cleared .tos_bss; do not initialize those sections again here. At exit,
+	 * IRQs must remain disabled. */
 }
-#endif
-
-#endif
-
